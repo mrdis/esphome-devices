@@ -1,0 +1,95 @@
+substitutions:
+  device_name: teckin-sp22-rtl8710bn-2mb-788k
+  friendly_name: SP22-plug
+
+esphome:
+  name: ${device_name}
+
+rtl87xx:
+  board: generic-rtl8710bn-2mb-788k
+  framework:
+    version: 1.1.0
+
+ota:
+
+wifi:
+  ap:
+    ssid: $device_name
+
+captive_portal:
+
+mdns:
+
+api:
+  reboot_timeout: 0s
+
+web_server:
+  local: false
+  
+logger:
+
+light:
+  - platform: status_led
+    name: ${friendly_name} Red
+    pin: 
+      number: PA18
+      inverted: true
+    internal: True
+
+  - platform: binary
+    name: ${friendly_name} Blue
+    output: blue_led
+    internal: True
+    restore_mode: ALWAYS_ON
+
+
+output:
+  - id: blue_led
+    platform: gpio
+    pin:
+      number: PA05
+      inverted: true
+    
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: PA23
+    id: sp22_button
+    name: ${friendly_name} Button
+    on_press:
+      - switch.toggle: relay
+    internal: True
+
+
+switch:
+  - platform: gpio
+    pin: PA15
+    name: ${friendly_name} Switch
+    id: relay
+    on_turn_on:
+      - output.turn_on: blue_led
+    on_turn_off:
+      - output.turn_off: blue_led
+    restore_mode: ALWAYS_ON
+      
+sensor:
+  - platform: hlw8012
+    model: BL0937
+    sel_pin:
+      number: PA14
+      inverted: true
+    cf_pin: PA00
+    cf1_pin: PA12
+    current:
+      name: ${friendly_name} Current
+    voltage:
+      name: ${friendly_name} Voltage
+    power:
+      name: ${friendly_name} Power
+    voltage_divider: 1
+    update_interval: 2s
+    change_mode_every: 2
+    
+button:
+  - platform: restart
+    name: ${friendly_name} Restart
