@@ -86,9 +86,8 @@ sensor:
       name: ${friendly_name} Voltage
     power:
       name: ${friendly_name} Power
-    voltage_divider: 1
-    update_interval: 2s
-    change_mode_every: 2
+    voltage_divider: 1719
+    update_interval: 30s
     
 button:
   - platform: restart
