@@ -78,8 +78,12 @@ sensor:
     sel_pin:
       number: PA14
       inverted: true
-    cf_pin: PA00
-    cf1_pin: PA12
+    cf_pin:
+      number: PA00
+      inverted: true
+    cf1_pin: 
+      number: PA12
+      inverted: true
     current:
       name: ${friendly_name} Current
     voltage:
